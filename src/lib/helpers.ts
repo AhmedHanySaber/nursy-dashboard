@@ -1,0 +1,85 @@
+import moment from "moment"
+
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+import { toast } from "react-toastify"
+import { ApiResponse } from "@/types/default"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+export function showResponse<T>(data: ApiResponse<T>, execute?: () => void) {
+  if (data?.status >= 200 && data?.status <= 299) {
+    toast.success(data?.message)
+    if (execute) execute()
+    return
+  }
+  toast.error(data?.message)
+  if (execute) execute()
+  return
+}
+
+export function handleError(error: any) {
+  toast.error(error?.message || "ERROR - Something went wrong")
+}
+
+export function diffForHumans(date: Date) {
+  return moment(date).fromNow()
+}
+
+export function formatDate(date: Date, format: string = "YYYY-MM-DD") {
+  return moment(date).format(format)
+}
+
+export function formatToEGP(amount: string): string {
+  return new Intl.NumberFormat("en-EG", {
+    style: "currency",
+    currency: "EGP",
+    minimumFractionDigits: 2
+  }).format(+amount)
+}
+
+export function capitalize(str: string): string {
+  return str?.replace(/_/g, " ")?.replace(/\b\w/g, (char) => char.toUpperCase())
+}
+
+export function extractInfoFromDate(txt: string) {
+  const arr = txt.split("-")
+  return {
+    day: arr[2],
+    year: arr[0],
+    month: arr[1]
+  }
+}
+
+export function objectToFormData(obj: Record<string, any>): FormData {
+  const formData = new FormData()
+
+  function appendFormData(data: any, rootKey?: string) {
+    if (data instanceof File) {
+      if (rootKey) formData.append(rootKey, data)
+    } else if (Array.isArray(data)) {
+      data.forEach((item, idx) => {
+        const key = rootKey ? `${rootKey}[${idx}]` : `${idx}`
+        appendFormData(item, key)
+      })
+    } else if (typeof data === "object" && data !== null) {
+      Object.keys(data).forEach((key) => {
+        const value = data[key]
+        const formKey = rootKey ? `${rootKey}[${key}]` : key
+        appendFormData(value, formKey)
+      })
+    } else if (data !== undefined && data !== null) {
+      if (rootKey) formData.append(rootKey, data)
+    }
+  }
+
+  appendFormData(obj)
+
+  return formData
+}
+
+export function actionResponse({ message, status, data }: { message: string; status: number; data?: any }) {
+  return { message, status, data }
+}
