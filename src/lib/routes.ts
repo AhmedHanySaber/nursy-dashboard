@@ -34,6 +34,10 @@ const routes = {
   illnessTypes: {
     index: "/dashboard/illness-types",
     view: (id: number) => `/dashboard/illness-types/${id}`
+  },
+  wallets: {
+    index: "/dashboard/wallets",
+    view: (id: number) => `/dashboard/users/${id}/wallet`
   }
 }
 

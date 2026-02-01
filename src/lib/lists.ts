@@ -1,4 +1,4 @@
-import { BarChart2, BriefcaseMedical, CheckLine, ClipboardCheck, LayersIcon, ShoppingCart, SyringeIcon, TestTube, UserLock, UserMinus } from "lucide-react"
+import { BarChart2, BriefcaseMedical, CheckLine, ClipboardCheck, LayersIcon, ShoppingCart, SyringeIcon, TestTube, UserLock, UserMinus, Wallet } from "lucide-react"
 import routes from "./routes"
 
 export const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -59,5 +59,10 @@ export const SidebarLinks = [
     name: "Illness Types",
     href: routes.illnessTypes.index,
     icon: BriefcaseMedical
+  },
+  {
+    name: "Wallets",
+    href: routes.wallets.index,
+    icon: Wallet
   }
 ]

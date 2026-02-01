@@ -35,6 +35,10 @@ const queryKeys = {
   orders: {
     index: (sp: TObject = {}) => ["orders", sp],
     singleOrder: (userId: number) => ["orders", userId]
+  },
+  wallets: {
+    all: (sp: TObject = {}) => ["wallets", sp],
+    singleWallet: (userId: number) => ["wallets", userId]
   }
 }
 
